@@ -1,49 +1,49 @@
 % clear all;clc;close all;
 
-%% ²ÎÊıÅäÖÃ
-Bit_n=10000;%ÂëÔªÊıÁ¿
-L=160;%À©ÆµÔöÒæ
-fs=96000;%²ÉÑùÆµÂÊ
-nSamp=1/fs;%²ÉÑù¼ä¸ô
-Bit=single(sign(randn(1,Bit_n)));%´ı·¢ËÍÂëÔª
-Nsample=Bit_n*L*2;%²ÉÑùµãÊıÁ¿
-M=L*2; %À©ÆµÔöÒæ
+%% å‚æ•°é…ç½®
+Bit_n=10000;%ç å…ƒæ•°é‡
+L=160;%æ‰©é¢‘å¢ç›Š
+fs=96000;%é‡‡æ ·é¢‘ç‡
+nSamp=1/fs;%é‡‡æ ·é—´éš”
+Bit=single(sign(randn(1,Bit_n)));%å¾…å‘é€ç å…ƒ
+Nsample=Bit_n*L*2;%é‡‡æ ·ç‚¹æ•°é‡
+M=L*2; %æ‰©é¢‘å¢ç›Š
 
-%% ²ÎÊıÅäÖÃÏÔÊ¾¼°Ğ§Ñé
+%% å‚æ•°é…ç½®æ˜¾ç¤ºåŠæ•ˆéªŒ
 Vb=fs/L;
 fprintf('\r');
-fprintf('Í¨ĞÅ²ÎÊı\r');
+fprintf('é€šä¿¡å‚æ•°\r');
 fprintf('--------------\r');
-fprintf('²ÉÑùÆµÂÊ: %g Hz\n',fs);
-fprintf('Í¨ĞÅËÙÂÊ: %g bit/s\n',Vb);
-fprintf('À©ÆµÒò×Ó: %g \n',L);
-fprintf('ÔØÆµ¹ı²ÉÑù: %g \n',fs/L);
+fprintf('é‡‡æ ·é¢‘ç‡: %g Hz\n',fs);
+fprintf('é€šä¿¡é€Ÿç‡: %g bit/s\n',Vb);
+fprintf('æ‰©é¢‘å› å­: %g \n',L);
+fprintf('è½½é¢‘è¿‡é‡‡æ ·: %g \n',fs/L);
 
 
-%% »ìãçĞÅºÅÉú³É
+%% æ··æ²Œä¿¡å·ç”Ÿæˆ
 u=logistic_map(Nsample);
 
-%% µ÷ÖÆ
+%% è°ƒåˆ¶
 Modulated_signal=Chaotic_modulate(Bit_n,L,Bit,u);
 
-%% ¶à¾¶
+%% å¤šå¾„
 flag_rece=Modulated_signal;
 % h=[0.6,zeros(1,400),0.3,zeros(1,500),0.1];
 % flag_rece=conv(Modulate_signal,h);
 % flag_rece=flag_rece(1:length(Modulate_signal));
 
-%% ½âµ÷
+%% è§£è°ƒ
 Eb_N0=0:1:20;
 for i=1:length(Eb_N0)
-    Received_signal=Fun_EBN0(flag_rece,Bit_n,Eb_N0(i));%% ÔëÉù    
-    Recover_bit=Chaotic_demodulate(Bit_n,L,Received_signal);%½âÂë
-    %ÎóÂë
+    Received_signal=Fun_EBN0(flag_rece,Bit_n,Eb_N0(i));%% å™ªå£°    
+    Recover_bit=Chaotic_demodulate(Bit_n,L,Received_signal);%è§£ç 
+    %è¯¯ç 
     BER(i)=length(find((Bit-Recover_bit)~=0))/Bit_n;
-    %½ø¶ÈÌõ
+    %è¿›åº¦æ¡
     wa=waitbar(i/length(Eb_N0));
 end
-close(wa);%¹Ø±Õ½ø¶ÈÌõ
-%% ÀíÂÛÎóÂëÂÊ
+close(wa);%å…³é—­è¿›åº¦æ¡
+%% ç†è®ºè¯¯ç ç‡
 BER_DCSK=Fun_BER_DCSK_theoretical(L,Eb_N0);
 
 

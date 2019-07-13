@@ -1,4 +1,4 @@
-function Output=Fun_EBN0(Input,Num_bit,Eb_N0)%输入信号，码元数量，Eb/N0
+function Output=Fun_EBN0(Input,Num_bit,Eb_N0)%杈撳叆淇″彿锛岀爜鍏冩暟閲忥紝Eb/N0
 Num=length(Input);
 EbN0=10^(Eb_N0/10);
 %Esampler=sum(Input.^2)/Num_bit/2;

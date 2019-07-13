@@ -1,7 +1,7 @@
 function [f1,val]=fre_spec(x,fs)
-%x----------Êı¾İ
-%fs--------²ÉÑùÆµÂÊ
-%ÆµÆ×·ÖÎö
+%x----------æ•°æ®
+%fs--------é‡‡æ ·é¢‘ç‡
+%é¢‘è°±åˆ†æ
 N=length(x);
 X1=fft(x,N);
 X2=fftshift(fft(x,N));
@@ -19,5 +19,5 @@ figure
 plot(f2,F2);
 xlabel('Frequency/Hz');
 ylabel('Amplitude/dB');
-title('»ìãçĞÅºÅµÄÆµÆ×');
+title('æ··æ²Œä¿¡å·çš„é¢‘è°±');
 grid on;
