@@ -9,33 +9,36 @@ Bit_n=10000;% 码元数量
 Bit=single(sign(randn(1,Bit_n)));% 待发送码元
 
 %% 参数配置显示及效验
-Vb=fs/L;
 fprintf('\r');
 fprintf('通信参数\r');
 fprintf('--------------\r');
-fprintf('采样频率: %g Hz\n',fs);
-fprintf('通信速率: %g bit/s\n',Vb);
-fprintf('扩频因子: %g \n',L);
-fprintf('载频过采样: %g \n',fs/L);
+
 
 hold on
 grid on
-axis([0 Eb_N0(end) 10^-4 10^0]);
-for i = 1:5
-    L=10^(i-1);% 扩频增益
+Eb_N0=10;
+FM_DCSK_L=zeros(7);
+% Eb_N0=0:1:20;
+% axis([0 Eb_N0(end) 10^-4 10^-0.3]);
+color=['r','g','b','y','k'];
+% color=['r','g'];
+for i = 1:7
+    L=10^(i);% 扩频增益
     Nsample=Bit_n*L*2;% 采样点数量
     % 混沌信号生成
     u=logistic_map(Nsample);
     
     % DCSK FM-DCSK调制解调
-    BER_DCSK=DCSK(Bit_n,L,Bit,u);
-    semilogy(Eb_N0,BER_DCSK,color(1),'LineWidth',2);
-%     BER_FM_DCSK=FM_DCSK(Bit_n,L,Bit,u,fc,fs,fd);
+    BER_DCSK=DCSK(Bit_n,L,Bit,u,Eb_N0);
+%     semilogy(Eb_N0,BER_DCSK,color(i),'LineWidth',2);
+%     BER_FM_DCSK=FM_DCSK(Bit_n,L,Bit,u,fc,fs,fd,Eb_N0);
 %     semilogy(Eb_N0,BER_FM_DCSK,color(i),'LineWidth',2);
+    FM_DCSK_L(i)=BER_DCSK;
 end
-color=['r','g','b','y','k'];
-% color=['r','g'];
-legend('L=5','L=10','L=15','L=20','L=25');
+% legend('L=6','L=12','L=18','L=24','L=30');
+xlabel('扩频增益');
+ylabel('误码率');
+semilogy((1:10).*2,FM_DCSK_L);
 % legend('DCSK','FM_DCSK')
 
 % %% 调制

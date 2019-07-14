@@ -16,25 +16,32 @@ fprintf('--------------\r');
 
 hold on
 grid on
-Eb_N0=0:1:20;
+Eb_N0=10;
+DCSK_L=zeros(20);
+FM_DCSK_L=zeros(20);
+% Eb_N0=0:1:20;
 % axis([0 Eb_N0(end) 10^-4 10^-0.3]);
 color=['r','g','b','y','k'];
 % color=['r','g'];
-for i = 1:5
-    L=i*6;% 扩频增益
+for i = 1:20
+    L=i;% 扩频增益
     Nsample=Bit_n*L*2;% 采样点数量
     % 混沌信号生成
     u=logistic_map(Nsample);
     
     % DCSK FM-DCSK调制解调
-%     BER_DCSK=DCSK(Bit_n,L,Bit,u);
+    BER_DCSK=DCSK(Bit_n,L,Bit,u,Eb_N0);
 %     semilogy(Eb_N0,BER_DCSK,color(i),'LineWidth',2);
-    BER_FM_DCSK=FM_DCSK(Bit_n,L,Bit,u,fc,fs,fd);
-    semilogy(Eb_N0,BER_FM_DCSK,color(i),'LineWidth',2);
+%     BER_FM_DCSK=FM_DCSK(Bit_n,L,Bit,u,fc,fs,fd,Eb_N0);
+%     semilogy(Eb_N0,BER_FM_DCSK,color(i),'LineWidth',2);
+    DCSK_L(i)=BER_DCSK;
+%     FM_DCSK_L(i)=BER_FM_DCSK;
 end
-legend('L=6','L=12','L=18','L=24','L=30');
+% legend('L=6','L=12','L=18','L=24','L=30');
 xlabel('扩频增益');
 ylabel('误码率');
+semilogy(1:20,DCSK_L,'b','LineWidth',2);
+% semilogy(1:20,FM_DCSK_L,'b','LineWidth',2);
 % legend('DCSK','FM_DCSK')
 
 % %% 调制
