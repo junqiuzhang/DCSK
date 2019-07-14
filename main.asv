@@ -7,8 +7,6 @@ fc=30000; % 载波频率
 fd=1000; % 频偏
 nSamp=1/fs;%采样间隔
 Bit=single(sign(randn(1,Bit_n)));%待发送码元
-L=100;% 扩频增益
-Nsample=Bit_n*L*2;% 采样点数量
 
 %% 参数配置显示及效验
 Vb=fs/L;
@@ -20,19 +18,25 @@ fprintf('通信速率: %g bit/s\n',Vb);
 fprintf('扩频因子: %g \n',L);
 fprintf('载频过采样: %g \n',fs/L);
 
-%% 混沌信号生成
-u=logistic_map(Nsample);
-
-%% DCSK FM-DCSK调制解调
 hold on
 grid on
-Eb_N0=0:1:20;
 axis([0 Eb_N0(end) 10^-4 10^0]);
-
-BER_DCSK=DCSK(Bit_n,L,Bit,u);
-semilogy(Eb_N0,BER_DCSK,'r','LineWidth',2);
+for i = 1:5
+    L=10^(i-1);% 扩频增益
+    Nsample=Bit_n*L*2;% 采样点数量
+    % 混沌信号生成
+    u=logistic_map(Nsample);
+    
+    % DCSK FM-DCSK调制解调
+    BER_DCSK=DCSK(Bit_n,L,Bit,u);
+    semilogy(Eb_N0,BER_DCSK,color(1),'LineWidth',2);
 %     BER_FM_DCSK=FM_DCSK(Bit_n,L,Bit,u,fc,fs,fd);
-%     semilogy(Eb_N0,BER_FM_DCSK,'b','LineWidth',2);
+%     semilogy(Eb_N0,BER_FM_DCSK,color(i),'LineWidth',2);
+end
+% color=['r','g','b','y','k'];
+% color=['r','g'];
+% legend('L=5','L=10','L=15','L=20','L=25');
+% legend('DCSK','FM_DCSK')
 
 % %% 调制
 % Modulated_signal=Chaotic_modulate(Bit_n,L,Bit,u);

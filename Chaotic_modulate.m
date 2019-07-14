@@ -1,8 +1,8 @@
 function Modulate_signal=Chaotic_modulate(Bit_n,L,Bit,u)
 Modulate_signal=[];
 for i=1:Bit_n
-    refer_signal=u((i-1)*L+1:i*L);%æ¯ä¸ªç å…ƒçš„å‚è€ƒä¿¡å·
-    modul_signal=refer_signal.*Bit(i);%æ¯ä¸ªç å…ƒçš„è°ƒåˆ¶ä¿¡å·
+    refer_signal=u((i-1)*L+1:i*L);%Ã¿¸öÂëÔªµÄ²Î¿¼ĞÅºÅ
+    modul_signal=refer_signal.*Bit(i);%Ã¿¸öÂëÔªµÄµ÷ÖÆĞÅºÅ
     Modulate_signal=[Modulate_signal,refer_signal,modul_signal];
 end   
 Modulate_signal=single(Modulate_signal);
