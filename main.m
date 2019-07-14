@@ -1,14 +1,14 @@
 % clear all;clc;close all;
 
 %% 参数配置
-Bit_n=10000;%码元数量
-fs=96000;%采样频率
+Bit_n=10000;% 码元数量
 fc=30000; % 载波频率
 fd=1000; % 频偏
-nSamp=1/fs;%采样间隔
-Bit=single(sign(randn(1,Bit_n)));%待发送码元
+fs=96000;% 采样频率
+nSamp=1/fs;% 采样间隔
+Bit=single(sign(randn(1,Bit_n)));% 码元
 L=100;% 扩频增益
-Nsample=Bit_n*L*2;% 采样点数量
+Nsample=Bit_n*L*2;% 扩频后采样点数量
 
 %% 参数配置显示及效验
 Vb=fs/L;
